@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 MAINTAINER Alexey Nurgaliev <atnurgaliev@gmail.com>
 
@@ -24,7 +24,6 @@ ENV LANG="C.UTF-8" \
 RUN cd /home &&\
     apt-get update &&\
     apt-get install -y software-properties-common &&\
-    add-apt-repository "deb http://repos.lpm.org.ru/kumir2/ubuntu trusty universe" &&\
     apt-get update &&\
     apt-get install -y --allow-unauthenticated \
                        wget locales ncurses-base libncurses-dev libncursesw5 \
@@ -33,7 +32,7 @@ RUN cd /home &&\
                        g++ gawk apache2 gettext fpc mc openjdk-8-jdk-headless \
                        libcurl4-openssl-dev libzip-dev uuid-dev bison flex \
                        mono-devel mono-runtime mono-vbnc perl python python3 \
-                       kumir2-tools git &&\
+                       git &&\
     \
     locale-gen en_US.UTF-8 ru_RU.UTF-8 &&\
     wget -O freebasic.tar.gz "${URL_FREEBASIC}" &&\
@@ -65,8 +64,6 @@ RUN cd /home &&\
     a2enmod cgi &&\
     rm /etc/apache2/sites-enabled/* &&\
     \
-    ln -s /usr/bin/kumir2-bc /usr/local/bin/kumir2-bc &&\
-    ln -s /usr/bin/kumir2-run /usr/local/bin/kumir2-run &&\
     rm /bin/sh &&\
     ln -s /bin/bash /bin/sh
 
