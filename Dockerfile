@@ -19,7 +19,7 @@ ENV LANG="C.UTF-8" \
     EJUDGE_HOME_DIR="/home/ejudge" \
     \
     URL_FREEBASIC="http://downloads.sourceforge.net/fbc/FreeBASIC-1.05.0-linux-x86_64.tar.gz?download" \
-    URL_EJUDGE="http://www.ejudge.ru/download/ejudge-3.7.8.tgz"
+    URL_EJUDGE="https://github.com/dstepenskiy/ejudge.git"
 
 RUN cd /home &&\
     apt-get update &&\
@@ -33,7 +33,7 @@ RUN cd /home &&\
                        g++ gawk apache2 gettext fpc mc openjdk-8-jdk-headless \
                        libcurl4-openssl-dev libzip-dev uuid-dev bison flex \
                        mono-devel mono-runtime mono-vbnc perl python python3 \
-                       kumir2-tools &&\
+                       kumir2-tools git &&\
     \
     locale-gen en_US.UTF-8 ru_RU.UTF-8 &&\
     wget -O freebasic.tar.gz "${URL_FREEBASIC}" &&\
@@ -48,9 +48,9 @@ RUN cd /home &&\
     useradd ejudge -r -s /bin/bash -g ejudge &&\
     mkdir -m 0777 -p "${EJUDGE_CGI_DIR}" "${EJUDGE_HTDOCS_DIR}" "${EJUDGE_BUILD_DIR}" &&\
     \
-    wget -O ejudge.tar.gz --no-check-certificate "${URL_EJUDGE}" &&\
-    tar -xvf ejudge.tar.gz -C /opt/ &&\
-    rm ejudge.tar.gz &&\
+    git clone "${URL_EJUDGE}" &&\
+    cp -R ejudge /opt/ &&\
+    rm -r ejudge &&\
     cd /opt/ejudge &&\
     ./configure --prefix="${EJUDGE_BUILD_DIR}" \
                 --enable-contests-home-dir="${EJUDGE_HOME_DIR}" \
